@@ -7,7 +7,7 @@ import org.bukkit.entity.Player;
 
 //sends a message to a player
 //used to send delayed messages, for example help text triggered by a player's chat
-class SendPlayerMessageTask implements Runnable 
+public class SendPlayerMessageTask implements Runnable 
 {
 	private Player player;
 	private ChatColor color;
