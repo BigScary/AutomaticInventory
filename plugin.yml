@@ -1,17 +1,17 @@
+main: me.ryanhamshire.automaticinventory.AutomaticInventory
 name: AutomaticInventory
-main: me.ryanhamshire.AutomaticInventory.AutomaticInventory
-version: 2.7.1
+version: 2.7.2 Fork
 commands:
    debugai:
-      description: Debug command for AutomaticInventory.
+      description: The debug command for AutomaticInventory
       usage: /debugai
       permission: automaticinventory.debug
    autosort:
       description: Toggles auto-sorting options.
-      usage: /AutoSort
+      usage: /autosort
    depositall:
       description: Deposits your non-hotbar inventory into any nearby chests containing matching items.
-      usage: /DepositAll
+      usage: /depositall
       aliases: [da, dumpitems, dumploot, depositloot]
       permission: automaticinventory.depositall
 permissions:
@@ -45,3 +45,7 @@ permissions:
     automaticinventory.depositall:
         description: Grants permission to use /DepositAll.
         default: true
+load: STARTUP
+authors: [ryanhamshire,crazyhoorse961]
+website: https://github.com/crazyhorse961/AutomaticInventory
+database: false
