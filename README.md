@@ -6,3 +6,7 @@ I stopped working on this project after Minecraft 1.10.  Anyone may use my sourc
 
 # The future of this project
 Actually, me (crazyhoorse961) i want to continue this project with a fork. Ill try update it, i won't publish it on spigot or bukkit but feel free to build it, i've now leaved releases too.
+
+# READ
+I'm realizing that i haven't much time to take this project but, i will take it updated to 1.12 and all the future versions, but, i won't (probably) add many features and i won't be that active on solving issues. Sorry
+
