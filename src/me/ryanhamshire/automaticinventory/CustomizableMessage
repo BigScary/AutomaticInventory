@@ -1,6 +1,6 @@
 //Copyright 2015 Ryan Hamshire
 
-package me.ryanhamshire.AutomaticInventory;
+package me.ryanhamshire.automaticinventory;
 
 public class CustomizableMessage 
 {

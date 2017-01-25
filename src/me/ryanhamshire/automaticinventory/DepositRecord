@@ -1,6 +1,6 @@
-package me.ryanhamshire.AutomaticInventory;
+package me.ryanhamshire.automaticinventory;
 
-class DepositRecord
+public class DepositRecord
 {
     DepositRecord() {}
     int totalItems = 0;

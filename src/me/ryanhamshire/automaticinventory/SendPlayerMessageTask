@@ -1,13 +1,13 @@
 //Copyright 2015 Ryan Hamshire
 
-package me.ryanhamshire.AutomaticInventory;
+package me.ryanhamshire.automaticinventory;
 
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 
 //sends a message to a player
 //used to send delayed messages, for example help text triggered by a player's chat
-class SendPlayerMessageTask implements Runnable 
+public class SendPlayerMessageTask implements Runnable 
 {
 	private Player player;
 	private ChatColor color;
@@ -25,10 +25,10 @@ class SendPlayerMessageTask implements Runnable
 	{
 		if(player == null)
 		{
-		    AutomaticInventory.AddLogEntry(color + message);
+		    AutomaticInventory.addLogEntry(color + message);
 		    return;
 		}
 	    
-		AutomaticInventory.sendMessage(this.player, this.color, this.message);
+		AutomaticInventory.getInstance().sendMessage(this.player, this.color, this.message);
 	}	
 }

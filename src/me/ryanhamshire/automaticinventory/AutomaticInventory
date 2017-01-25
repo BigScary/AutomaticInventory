@@ -1,6 +1,6 @@
 //Copyright 2015 Ryan Hamshire
 
-package me.ryanhamshire.AutomaticInventory;
+package me.ryanhamshire.automaticinventory;
 import java.io.File;
 import java.io.IOException;
 import java.util.Collection;
@@ -33,7 +33,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 public class AutomaticInventory extends JavaPlugin
 {
 	//for convenience, a reference to the instance of this plugin
-	public static AutomaticInventory instance;
+	private static AutomaticInventory instance;
 	
 	//for logging to the console and log file
 	private static Logger log = Logger.getLogger("Minecraft");
@@ -44,14 +44,14 @@ public class AutomaticInventory extends JavaPlugin
 	//this handles data storage, like player and region data
 	public DataStore dataStore;
 	
-	public synchronized static void AddLogEntry(String entry)
+	public synchronized static void addLogEntry(String entry)
 	{
 		log.info("AutomaticInventory: " + entry);
 	}
 	
 	public void onEnable()
 	{ 		
-		AddLogEntry("AutomaticInventory enabled.");		
+		addLogEntry("AutomaticInventory enabled.");		
 		
 		instance = this;
 		
@@ -109,7 +109,7 @@ public class AutomaticInventory extends JavaPlugin
         }
         catch(IOException  e)
         {
-            AddLogEntry("Encountered an issue while writing to the config file.");
+            addLogEntry("Encountered an issue while writing to the config file.");
             e.printStackTrace();
         }
 		
@@ -156,44 +156,44 @@ public class AutomaticInventory extends JavaPlugin
         {
 		    if(args.length < 1)
 		    {
-		        sendMessage(player, TextMode.Instr, Messages.AutoSortHelp);
+		        sendMessage(player, TextMode.INSTR, Messages.AUTOSORTHELP);
 		        return true;
 		    }
 		    
 		    String optionName = args[0].toLowerCase();
 		    if(optionName.startsWith("chest"))
 		    {
-		        if(!hasPermission(Features.SortChests, player))
+		        if(!hasPermission(Features.SORTCHESTS, player))
 		        {
-		            sendMessage(player, TextMode.Err, Messages.NoPermissionForFeature);
+		            sendMessage(player, TextMode.ERR, Messages.NOPERMISSIONFORFEATURE);
 		            return true;
 		        }
 		        
 		        playerData.setSortChests(!playerData.isSortChests());
 		        
 		        if(playerData.isSortChests())
-		            sendMessage(player, TextMode.Success, Messages.ChestSortEnabled);
+		            sendMessage(player, TextMode.SUCCESS, Messages.CHESTSORTENABLED);
 		        else
-		            sendMessage(player, TextMode.Success, Messages.ChestSortDisabled);
+		            sendMessage(player, TextMode.SUCCESS, Messages.CHESTSORTDISABLED);
 		    }
 		    else if(optionName.startsWith("inv"))
 		    {
-		        if(!hasPermission(Features.SortInventory, player))
+		        if(!hasPermission(Features.SORTINVENTORY, player))
                 {
-                    sendMessage(player, TextMode.Err, Messages.NoPermissionForFeature);
+                    sendMessage(player, TextMode.ERR, Messages.NOPERMISSIONFORFEATURE);
                     return true;
                 }
 		        
 		        playerData.setSortInventory(!playerData.isSortInventory());
 		        
 		        if(playerData.isSortInventory())
-                    sendMessage(player, TextMode.Success, Messages.InventorySortEnabled);
+                    sendMessage(player, TextMode.SUCCESS, Messages.INVENTORYSORTENABLED);
                 else
-                    sendMessage(player, TextMode.Success, Messages.InventorySortDisabled);
+                    sendMessage(player, TextMode.SUCCESS, Messages.INVENTORYSORTDISABLED);
 		    }
 		    else
 		    {
-		        sendMessage(player, TextMode.Err, Messages.AutoSortHelp);
+		        sendMessage(player, TextMode.ERR, Messages.AUTOSORTHELP);
                 return true;
 		    }
 		    
@@ -205,9 +205,9 @@ public class AutomaticInventory extends JavaPlugin
 		else if(cmd.getName().equalsIgnoreCase("depositall") && player != null)
         {
 		    //ensure player has feature enabled
-		    if(!AIEventHandler.featureEnabled(Features.DepositAll, player))
+		    if(!AIEventHandler.featureEnabled(Features.DEPOSITALL, player))
 		    {
-		        AutomaticInventory.sendMessage(player, TextMode.Err, Messages.NoPermissionForFeature);
+		        AutomaticInventory.getInstance().sendMessage(player, TextMode.ERR, Messages.NOPERMISSIONFORFEATURE);
 		        return true;
 		    }
 		    
@@ -258,7 +258,7 @@ public class AutomaticInventory extends JavaPlugin
             data.waitForSaveComplete();
         }
         
-        AddLogEntry("AutomaticInventory disabled.");
+        addLogEntry("AutomaticInventory disabled.");
 	}
 	
     static boolean hasPermission(Features feature, Player player)
@@ -266,19 +266,19 @@ public class AutomaticInventory extends JavaPlugin
         boolean hasPermission = false;
         switch(feature)
         {
-            case SortInventory:
+            case SORTINVENTORY:
                 hasPermission = player.hasPermission("automaticinventory.sortinventory");
                 break;
-            case SortChests:
+            case SORTCHESTS:
                 hasPermission = player.hasPermission("automaticinventory.sortchests");
                 break;
-            case RefillStacks:
+            case REFILLSTACKS:
                 hasPermission = player.hasPermission("automaticinventory.refillstacks");
                 break;
-            case QuickDeposit:
+            case QUICKDEPOSIT:
                 hasPermission = player.hasPermission("automaticinventory.quickdeposit");
                 break;
-            case DepositAll:
+            case DEPOSITALL:
                 hasPermission = player.hasPermission("automaticinventory.depositall");
                 break;
         }
@@ -287,7 +287,7 @@ public class AutomaticInventory extends JavaPlugin
     }
     
     @SuppressWarnings("unused")
-    private static void sendMessage(Player player, String message)
+    private void sendMessage(Player player, String message)
 	{
 		if(player != null)
 		{
@@ -295,28 +295,28 @@ public class AutomaticInventory extends JavaPlugin
 		}
 		else
 		{
-			AutomaticInventory.AddLogEntry(message);
+			AutomaticInventory.addLogEntry(message);
 		}
 	}
 	
-    static void sendMessage(Player player, ChatColor color, Messages messageID, String... args)
+    public void sendMessage(Player player, ChatColor color, Messages messageID, String... args)
     {
         sendMessage(player, color, messageID, 0, args);
     }
     
-    static void sendMessage(Player player, ChatColor color, Messages messageID, long delayInTicks, String... args)
+    public void sendMessage(Player player, ChatColor color, Messages messageID, long delayInTicks, String... args)
     {
         String message = AutomaticInventory.instance.dataStore.getMessage(messageID, args);
         sendMessage(player, color, message, delayInTicks);
     }
     
-    static void sendMessage(Player player, ChatColor color, String message)
+    public void sendMessage(Player player, ChatColor color, String message)
     {
         if(message == null || message.length() == 0) return;
         
         if(player == null)
         {
-            AutomaticInventory.AddLogEntry(color + message);
+            AutomaticInventory.addLogEntry(color + message);
         }
         else
         {
@@ -324,7 +324,7 @@ public class AutomaticInventory extends JavaPlugin
         }
     }
     
-    static void sendMessage(Player player, ChatColor color, String message, long delayInTicks)
+    public void sendMessage(Player player, ChatColor color, String message, long delayInTicks)
     {
         SendPlayerMessageTask task = new SendPlayerMessageTask(player, color, message);
         if(delayInTicks > 0)
@@ -338,7 +338,7 @@ public class AutomaticInventory extends JavaPlugin
     }
 
     @SuppressWarnings("deprecation")
-    static DepositRecord depositMatching(PlayerInventory source, Inventory destination, boolean depositHotbar)
+    public static DepositRecord depositMatching(PlayerInventory source, Inventory destination, boolean depositHotbar)
     {
         HashSet<String> eligibleSignatures = new HashSet<String>();
         DepositRecord deposits = new DepositRecord();
@@ -417,7 +417,7 @@ public class AutomaticInventory extends JavaPlugin
         }
     }
 
-    static boolean preventsChestOpen(int aboveBlockID)
+    public boolean preventsChestOpen(int aboveBlockID)
     {
         switch(aboveBlockID)
         {
@@ -447,4 +447,7 @@ public class AutomaticInventory extends JavaPlugin
                 return true;
         }
     }
+    public static AutomaticInventory getInstance() {
+		return instance;
+	}
 }
